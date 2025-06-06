@@ -43,6 +43,7 @@ fun NoteMarkTextField(
     title: String?,
     modifier: Modifier = Modifier,
     error: String? = null,
+    info: String? = null,
     keyboardType: KeyboardType = KeyboardType.Text
 ) {
     var isFocused by remember {
@@ -76,16 +77,15 @@ fun NoteMarkTextField(
                 .background(
                     if (isFocused) {
                         MaterialTheme.colorScheme.surfaceContainerLowest
-                    } else if (error != null) {
-                        MaterialTheme.colorScheme.surfaceContainerLowest
                     } else {
+                        //Color.LightGray.copy(alpha = 0.7f)
                         MaterialTheme.colorScheme.surface
                     }
                 )
                 .border(
                     width = 1.dp,
                     color = if (isFocused) {
-                        MaterialTheme.colorScheme.onSurface
+                        MaterialTheme.colorScheme.primary
                     } else if (error != null) {
                         MaterialTheme.colorScheme.error
                     } else {
@@ -128,11 +128,17 @@ fun NoteMarkTextField(
             }
         )
         Spacer(Modifier.height(8.dp))
-        if (error != null) {
+        if (error != null && !isFocused) {
             Text(
                 text = error,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.error
+            )
+        } else if (isFocused && info != null) {
+            Text(
+                text = info,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }

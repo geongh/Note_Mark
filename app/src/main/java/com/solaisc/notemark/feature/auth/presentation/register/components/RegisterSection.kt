@@ -28,7 +28,8 @@ fun ColumnScope.RegisterSection(
         endIcon = null,
         hint = "John.doe",
         title = "Username",
-        error = state.value.usernameError
+        error = state.value.usernameError,
+        info = "Use between 3 and 20 characters for your username."
     )
     Spacer(Modifier.height(16.dp))
     NoteMarkTextField(
@@ -47,7 +48,8 @@ fun ColumnScope.RegisterSection(
         },
         hint = "Password",
         title = "Password",
-        error = state.value.passwordError
+        error = state.value.passwordError,
+        info = "Use 8+ characters with a number or symbol for better security."
     )
     Spacer(Modifier.height(16.dp))
     NoteMarkPasswordTextField(

@@ -10,7 +10,6 @@ import com.solaisc.notemark.util.authentication.AuthInfo
 import com.solaisc.notemark.util.authentication.SessionStorage
 import com.solaisc.notemark.util.networking.post
 import io.ktor.client.HttpClient
-import kotlin.coroutines.suspendCoroutine
 
 class AuthRepositoryImpl(
     private val httpClient: HttpClient,
@@ -24,6 +23,7 @@ class AuthRepositoryImpl(
                 password = password
             )
         )
+        Log.d("This result log", result.toString())
         if(result is Result.Success) {
             sessionStorage.set(
                 AuthInfo(
