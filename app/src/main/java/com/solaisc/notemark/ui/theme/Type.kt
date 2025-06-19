@@ -28,23 +28,23 @@ val Typography = Typography(
     ),
     titleSmall = TextStyle(
         fontFamily = spacegFontMedium,
-        fontSize = 17.sp,
-        lineHeight = 24.sp
+        fontSize = 18.sp,
+        lineHeight = 22.sp
     ),
     bodyLarge = TextStyle(
         fontFamily = interFontRegular,
-        fontSize = 17.sp,
-        lineHeight = 24.sp
+        fontSize = 18.sp,
+        lineHeight = 22.sp
     ),
     bodyMedium = TextStyle(
         fontFamily = interFontMedium,
-        fontSize = 15.sp,
-        lineHeight = 20.sp
+        fontSize = 16.sp,
+        lineHeight = 18.sp
     ),
     bodySmall = TextStyle(
         fontFamily = interFontRegular,
-        fontSize = 15.sp,
-        lineHeight = 20.sp
+        fontSize = 14.sp,
+        lineHeight = 16.sp
     )
 
     /* Other default text styles to override

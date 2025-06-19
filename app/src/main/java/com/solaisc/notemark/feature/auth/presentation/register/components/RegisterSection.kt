@@ -71,7 +71,8 @@ fun ColumnScope.RegisterSection(
             onAction(RegisterAction.OnRegisterClick)
         },
         enabled = state.value.isButtonEnabled,
-        isLoading = state.value.isLoading
+        isLoading = state.value.isLoading,
+        modifier = Modifier.fillMaxWidth()
     )
     Spacer(Modifier.height(24.dp))
     Text(

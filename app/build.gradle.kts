@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.room.plugin)
+    alias(libs.plugins.ksp.plugin)
 }
 
 android {
@@ -42,6 +44,10 @@ android {
         compose = true
         buildConfig = true
     }
+
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
 }
 
 dependencies {
@@ -63,6 +69,9 @@ dependencies {
     implementation(libs.bundles.koin.compose)
     implementation(libs.bundles.ktor)
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.org.mongodb.bson)
+    implementation(libs.bundles.room)
+    ksp(libs.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

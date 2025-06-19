@@ -48,7 +48,8 @@ fun ColumnScope.LoginSection(
             onAction(LoginAction.OnLoginClick)
         },
         enabled = state.value.isButtonEnabled,
-        isLoading = state.value.isLoading
+        isLoading = state.value.isLoading,
+        modifier = Modifier.fillMaxWidth()
     )
     Spacer(Modifier.height(24.dp))
     Text(

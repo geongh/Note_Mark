@@ -1,5 +1,6 @@
 package com.solaisc.notemark
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -17,6 +18,7 @@ class MainViewModel(
 
     init {
         viewModelScope.launch {
+            Log.d("Check access token", sessionStorage.get().toString())
             state = state.copy(isCheckingAuth = true)
             state = state.copy(
                 isLoggedIn = sessionStorage.get() != null

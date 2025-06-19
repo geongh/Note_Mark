@@ -1,6 +1,6 @@
 [versions]
-agp = "8.9.2"
-kotlin = "2.0.21"
+agp = "8.9.3"
+kotlin = "2.0.20"
 coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -17,6 +17,9 @@ ktorServerCallLogging = "2.3.7"
 koin = "3.5.3"
 kotlinx-serialization = "1.6.3"
 coreSplashscreen = "1.0.1"
+bson = "4.11.1"
+ksp = "2.0.20-1.0.25"
+room = "2.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -51,12 +54,20 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 ktor-server-call-logging = { module = "io.ktor:ktor-server-call-logging", version.ref = "ktorServerCallLogging" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization"}
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+org-mongodb-bson = { module = "org.mongodb:bson", version.ref = "bson" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+room = { id = "androidx.room", version.ref = "room" }
+room-plugin = { id = "androidx.room", version.ref = "room" }
+ksp-plugin = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [bundles]
 koin = ["koin-core", "koin-android", "koin-android-workmanager"]
@@ -68,4 +79,8 @@ ktor = [
     "ktor-client-core",
     "ktor-client-logging",
     "ktor-serialization-kotlinx-json"
+]
+room = [
+    "room-runtime",
+    "room-ktx"
 ]

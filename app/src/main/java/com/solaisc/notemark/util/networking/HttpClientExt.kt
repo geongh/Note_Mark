@@ -5,9 +5,11 @@ import com.solaisc.notemark.util.result.Result
 import com.solaisc.notemark.BuildConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
+import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url
 import io.ktor.client.statement.HttpResponse
@@ -37,6 +39,30 @@ suspend inline fun <reified Request, reified Response: Any> HttpClient.post(
         post {
             url(constructRoute(route))
             setBody(body)
+        }
+    }
+}
+
+suspend inline fun <reified Request, reified Response: Any> HttpClient.put(
+    route: String,
+    body: Request
+): Result<Response, DataError.Network> {
+    return safeCall {
+        put {
+            url(constructRoute(route))
+            setBody(body)
+        }
+    }
+}
+
+suspend inline fun <reified Response: Any> HttpClient.delete(
+    route: String,
+    parameter: String
+): Result<Response, DataError.Network> {
+    return safeCall {
+        delete {
+            var newRoute = constructRoute(route) + "/$parameter"
+            url(newRoute)
         }
     }
 }

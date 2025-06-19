@@ -1,6 +1,5 @@
 package com.solaisc.notemark.feature.auth.data
 
-import android.util.Log
 import com.solaisc.notemark.util.result.DataError
 import com.solaisc.notemark.util.result.EmptyResult
 import com.solaisc.notemark.util.result.Result
@@ -23,12 +22,12 @@ class AuthRepositoryImpl(
                 password = password
             )
         )
-        Log.d("This result log", result.toString())
         if(result is Result.Success) {
             sessionStorage.set(
                 AuthInfo(
                     accessToken = result.data.accessToken,
-                    refreshToken = result.data.refreshToken
+                    refreshToken = result.data.refreshToken,
+                    username = result.data.username
                 )
             )
         }
