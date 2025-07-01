@@ -21,7 +21,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "BASE_URL", "\"https://notemark.pl-coding.com\"")
-        buildConfigField("String", "EMAIL", "\"wtsoft@yahoo.com\"")
+        buildConfigField("String", "EMAIL", "\"email@email.com\"")
     }
 
     buildTypes {
