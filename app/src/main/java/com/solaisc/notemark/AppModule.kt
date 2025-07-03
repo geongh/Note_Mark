@@ -14,6 +14,7 @@ import com.solaisc.notemark.feature.note.domain.repository.NoteLocalRepository
 import com.solaisc.notemark.feature.note.domain.repository.NoteNetworkRepository
 import com.solaisc.notemark.feature.note.presentation.input_note.NoteViewModel
 import com.solaisc.notemark.feature.note.presentation.list_note.NotesViewModel
+import com.solaisc.notemark.feature.setting.presentation.SettingViewModel
 import com.solaisc.notemark.util.authentication.SessionStorage
 import com.solaisc.notemark.util.authentication.SharedPrefSessionStorage
 import com.solaisc.notemark.util.networking.HttpClientFactory
@@ -52,6 +53,8 @@ val appModule = module {
     singleOf(::NoteKtorRepositoryImpl).bind<NoteNetworkRepository>()
     viewModelOf(::NoteViewModel)
     viewModelOf(::NotesViewModel)
+
+    viewModelOf(::SettingViewModel)
 }
 
 

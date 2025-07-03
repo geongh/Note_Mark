@@ -7,17 +7,26 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.add
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -29,6 +38,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,6 +50,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.window.core.layout.WindowHeightSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
+import com.solaisc.notemark.R
 import com.solaisc.notemark.feature.note.presentation.list_note.components.NoteItem
 import com.solaisc.notemark.ui.theme.Gradient1
 import com.solaisc.notemark.ui.theme.Gradient2
@@ -72,7 +84,7 @@ fun NotesScreen(
         viewModel.events.collectLatest { event ->
             when(event) {
                 is NotesEvent.Navigate -> {
-                    navController.navigate("add_note?id=${event.id}") {
+                    navController.navigate("add_note?id=${event.id}&input_mode=${event.inputMode}") {
                         popUpTo("add_note") {
                             inclusive = true
                         }
@@ -106,7 +118,9 @@ fun NotesScreen(
                 )
             }
         },
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+        modifier = Modifier
+            .windowInsetsPadding(if (orientation != Orientation.Landscape) WindowInsets.navigationBars else WindowInsets.navigationBars.add(WindowInsets.displayCutout))
     ) { innerPadding ->
         Box(
             modifier = Modifier
@@ -132,23 +146,43 @@ fun NotesScreen(
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.weight(1f)
                     )
-                    Box(
-                        modifier = Modifier
-                            .background(
-                                color = MaterialTheme.colorScheme.primary,
-                                shape = RoundedCornerShape(12.dp)
-                            )
-                            .clip(RoundedCornerShape(12.dp))
-                            .padding(2.dp)
-                            .size(36.dp),
-                        contentAlignment = Alignment.Center
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(
-                            text = state.value.initial,
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onPrimary,
-                            fontWeight = FontWeight.Bold,
+                        Icon(
+                            imageVector = ImageVector.vectorResource(R.drawable.settings),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier
+                               .clip(CircleShape)
+                               .clickable {
+                                    navController.navigate("setting_dashboard") {
+                                        popUpTo("setting_dashboard") {
+                                            inclusive = true
+                                        }
+                                    }
+                               }
+                               .padding(2.dp)
                         )
+                        Spacer(Modifier.width(12.dp))
+                        Box(
+                            modifier = Modifier
+                                .background(
+                                    color = MaterialTheme.colorScheme.primary,
+                                    shape = RoundedCornerShape(12.dp)
+                                )
+                                .clip(RoundedCornerShape(12.dp))
+                                .padding(2.dp)
+                                .size(36.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = state.value.initial,
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onPrimary,
+                                fontWeight = FontWeight.Bold,
+                            )
+                        }
                     }
                 }
                 Column(
@@ -170,7 +204,7 @@ fun NotesScreen(
                                 NoteItem(
                                     note = note,
                                     onClick = {
-                                        navController.navigate("add_note?id=${note.id}")
+                                        viewModel.onAction(NotesAction.OnEditNoteClick(note.id))
                                     },
                                     onLongTap = {
                                         viewModel.onAction(NotesAction.OnItemLongTap(note.id))

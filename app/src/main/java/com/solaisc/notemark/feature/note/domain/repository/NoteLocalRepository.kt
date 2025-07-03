@@ -13,4 +13,6 @@ interface NoteLocalRepository {
     suspend fun upsertNote(note: Note): Result<Note, DataError.Local>
 
     suspend fun deleteNote(id: String)
+
+    suspend fun deleteNotes()
 }

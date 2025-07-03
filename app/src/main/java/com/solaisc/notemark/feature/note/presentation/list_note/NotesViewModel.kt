@@ -61,7 +61,7 @@ class NotesViewModel(
         when(action) {
             is NotesAction.OnEditNoteClick -> {
                 viewModelScope.launch {
-                    eventChannel.send(NotesEvent.Navigate(action.id))
+                    eventChannel.send(NotesEvent.Navigate(action.id, false))
                 }
             }
             NotesAction.OnNewNotesClick -> {
@@ -77,7 +77,7 @@ class NotesViewModel(
                     val result = localRepository.upsertNote(note)
 
                     if (result is Result.Success){
-                        eventChannel.send(NotesEvent.Navigate(result.data.id))
+                        eventChannel.send(NotesEvent.Navigate(result.data.id, true))
 
                         viewModelScope.launch {
                             val networkResult = networkRepository.postNote(note)

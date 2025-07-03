@@ -19,4 +19,7 @@ interface NoteDao {
 
     @Query("DELETE FROM noteentity WHERE id = :id")
     suspend fun deleteNote(id: String)
+
+    @Query("DELETE FROM noteentity")
+    suspend fun deleteNotes()
 }

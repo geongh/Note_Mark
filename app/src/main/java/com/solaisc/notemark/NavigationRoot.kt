@@ -12,9 +12,9 @@ import androidx.navigation.navArgument
 import com.solaisc.notemark.feature.auth.presentation.landing.LandingScreen
 import com.solaisc.notemark.feature.auth.presentation.login.LoginScreen
 import com.solaisc.notemark.feature.auth.presentation.register.RegisterScreen
-import com.solaisc.notemark.feature.note.EmptyScreen
 import com.solaisc.notemark.feature.note.presentation.input_note.NoteScreen
 import com.solaisc.notemark.feature.note.presentation.list_note.NotesScreen
+import com.solaisc.notemark.feature.setting.presentation.SettingScreen
 
 @Composable
 fun NavigationRoot(
@@ -27,6 +27,7 @@ fun NavigationRoot(
     ) {
         authGraph(navController)
         noteGraph(navController)
+        settingsGraph(navController)
     }
 }
 
@@ -87,17 +88,34 @@ private fun NavGraphBuilder.noteGraph(navController: NavHostController) {
         }
 
         composable(
-            route = "add_note?id={id}",
+            route = "add_note?id={id}&input_mode={input_mode}",
             arguments = listOf(
                 navArgument(
                     name = "id"
                 ) {
                     type = NavType.StringType
                     defaultValue = ""
+                },
+                navArgument(
+                    name = "input_mode"
+                ) {
+                    type = NavType.BoolType
+                    defaultValue = true
                 }
             )
         ) {
             NoteScreen(navController)
+        }
+    }
+}
+
+private fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
+    navigation(
+        startDestination = "setting_dashboard",
+        route = "settings"
+    ) {
+        composable("setting_dashboard") {
+            SettingScreen(navController)
         }
     }
 }

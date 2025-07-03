@@ -58,4 +58,8 @@ class NoteRoomRepositoryImpl(
     override suspend fun deleteNote(id: String) {
         noteDao.deleteNote(id)
     }
+
+    override suspend fun deleteNotes() {
+        noteDao.deleteNotes()
+    }
 }

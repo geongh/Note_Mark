@@ -22,6 +22,7 @@ import androidx.window.core.layout.WindowHeightSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
 import com.solaisc.notemark.feature.note.domain.model.Note
 import com.solaisc.notemark.util.Orientation
+import com.solaisc.notemark.util.toDateString
 import java.time.Instant
 import java.time.Year
 import java.time.ZoneId
@@ -52,16 +53,6 @@ fun NoteItem(
         modifier = modifier
             .fillMaxWidth()
     ) {
-        val instantCreateAt = Instant.parse(note.createdAt)
-
-        val currentYear = Year.now(ZoneId.systemDefault()).value
-        val noteYear = instantCreateAt.atZone(ZoneId.systemDefault()).toLocalDate().year
-
-        val formatterWithoutYear = DateTimeFormatter.ofPattern("dd MMM", Locale.getDefault())
-            .withZone(ZoneId.systemDefault())
-        val formatterWithYear = DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.getDefault())
-            .withZone(ZoneId.systemDefault())
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -81,7 +72,7 @@ fun NoteItem(
                 .padding(16.dp)
         ) {
             Text(
-                text = if (currentYear == noteYear) { formatterWithoutYear.format(instantCreateAt) } else formatterWithYear.format(instantCreateAt),//note.createdAt,
+                text = note.createdAt.toDateString(),
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
