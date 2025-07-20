@@ -31,6 +31,7 @@ fun NoteMarkTextField2(
     hint: String,
     modifier: Modifier = Modifier,
     keyboardType: KeyboardType = KeyboardType.Text,
+    imeAction: ImeAction = ImeAction.Done,
     titleTextStyle: Boolean = false,
     fontSize: TextUnit = 18.sp,
     lineHeight: TextUnit = 22.sp,
@@ -51,7 +52,7 @@ fun NoteMarkTextField2(
         ),
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType,
-            imeAction = ImeAction.Done
+            imeAction = imeAction
         ),
         lineLimits = lineLimits,
         cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),

@@ -26,7 +26,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -63,7 +65,8 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun NotesScreen(
-    navController: NavController
+    navController: NavController,
+    isConnected: Boolean
 ) {
     val viewModel: NotesViewModel = koinViewModel()
     val state = viewModel.state.collectAsStateWithLifecycle()
@@ -137,15 +140,27 @@ fun NotesScreen(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = "NoteMark",
-                        style = MaterialTheme.typography.titleMedium.copy(
-                            fontSize = 28.sp
-                        ),
-                        color = MaterialTheme.colorScheme.onSurface,
-                        fontWeight = FontWeight.Bold,
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.weight(1f)
-                    )
+                    ) {
+                        Text(
+                            text = "NoteMark",
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                fontSize = 28.sp
+                            ),
+                            color = MaterialTheme.colorScheme.onSurface,
+                            fontWeight = FontWeight.Bold
+                        )
+                        if (!isConnected) {
+                            Spacer(Modifier.width(8.dp))
+                            Icon(
+                                imageVector = ImageVector.vectorResource(R.drawable.cloud_off),
+                                contentDescription = null
+                            )
+                        }
+                    }
+
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -272,6 +287,6 @@ fun NotesScreen(
 @Composable
 fun NotesScreePreview() {
     NoteMarkTheme {
-        NotesScreen(rememberNavController())
+        NotesScreen(rememberNavController(), true)
     }
 }

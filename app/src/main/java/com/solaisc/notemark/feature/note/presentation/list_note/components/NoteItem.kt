@@ -22,12 +22,7 @@ import androidx.window.core.layout.WindowHeightSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
 import com.solaisc.notemark.feature.note.domain.model.Note
 import com.solaisc.notemark.util.Orientation
-import com.solaisc.notemark.util.toDateString
-import java.time.Instant
-import java.time.Year
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.util.Locale
+import com.solaisc.notemark.feature.note.presentation.utils.toDateString
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

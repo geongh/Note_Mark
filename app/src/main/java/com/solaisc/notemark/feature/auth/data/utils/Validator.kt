@@ -1,4 +1,4 @@
-package com.solaisc.notemark.util
+package com.solaisc.notemark.feature.auth.data.utils
 
 import android.util.Patterns
 

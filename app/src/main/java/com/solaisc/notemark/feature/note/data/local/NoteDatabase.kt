@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [NoteEntity::class],
+    entities = [NoteEntity::class, NotePendingSyncEntity::class, DeletedNotePendingSyncEntity::class, SyncDateEntity::class],
     version = 1,
     exportSchema = true
 )

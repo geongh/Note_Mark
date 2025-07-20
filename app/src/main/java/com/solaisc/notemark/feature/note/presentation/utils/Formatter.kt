@@ -1,4 +1,4 @@
-package com.solaisc.notemark.util
+package com.solaisc.notemark.feature.note.presentation.utils
 
 import java.time.Instant
 import java.time.Year

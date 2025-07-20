@@ -15,8 +15,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -30,16 +32,22 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.solaisc.notemark.R
+import com.solaisc.notemark.feature.note.presentation.list_note.NotesAction
+import com.solaisc.notemark.util.components.NoteMarkButton
+import com.solaisc.notemark.util.components.NotemarkDialog
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SettingScreen(
-    navController: NavController
+    navController: NavController,
+    isConnected: Boolean
 ) {
     val viewModel: SettingViewModel = koinViewModel()
+    val state = viewModel.state.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
 
@@ -99,13 +107,85 @@ fun SettingScreen(
                         style = MaterialTheme.typography.titleSmall
                     )
                 }
-                Spacer(Modifier.height(32.dp))
+                Spacer(Modifier.height(24.dp))
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
                             viewModel.onAction(SettingAction.OnLogoutClick)
+                        }
+                        .padding(8.dp)
+                ) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(R.drawable.clock),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(Modifier.width(12.dp))
+                    Text(
+                        text = "Sync Interval",
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                    Spacer(Modifier.weight(1f))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Manual Only",
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+
+                }
+                Spacer(Modifier.height(24.dp))
+                Row(
+                    verticalAlignment = Alignment.Top,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            viewModel.onAction(SettingAction.OnSyncClick)
+                        }
+                        .padding(8.dp)
+                ) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(R.drawable.refresh),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(Modifier.width(12.dp))
+                    Column {
+                        Text(
+                            text = "Sync Data",
+                            color = MaterialTheme.colorScheme.onSurface,
+                            style = MaterialTheme.typography.titleSmall
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        Text(
+                            text = state.value.syncDateText,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                }
+                Spacer(Modifier.height(24.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            if (!isConnected) {
+                                viewModel.onAction(SettingAction.OnErrorShown)
+                            } else {
+                                viewModel.onAction(SettingAction.OnLogoutClick)
+                            }
                         }
                         .padding(8.dp)
                 ) {
@@ -121,6 +201,50 @@ fun SettingScreen(
                         style = MaterialTheme.typography.titleSmall
                     )
                 }
+            }
+        }
+
+        if (state.value.isDialogShown) {
+            NotemarkDialog(
+                title = "Log out",
+                onDismiss = {
+                    viewModel.onAction(SettingAction.OnDismissDialog)
+                },
+                description = "You have unsynced changes. What would you like to do before logging out?",
+                primaryButton = {
+                    NoteMarkButton(
+                        text = "Sync Now",
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        backgroundColor = MaterialTheme.colorScheme.primary,
+                        isLoading = false,
+                        onClick = {
+                            viewModel.onAction(SettingAction.OnConfirmSyncClick)
+                        },
+                        modifier = Modifier.weight(1f)
+                    )
+                },
+                secondaryButton = {
+                    NoteMarkButton(
+                        text = "Do Not Sync",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        backgroundColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+                        borderColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = .3f),
+                        isLoading = false,
+                        onClick = {
+                            viewModel.onAction(SettingAction.OnConfirmNotSyncClick)
+                        },
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+            )
+        }
+
+        if (state.value.isSync == true) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
             }
         }
     }

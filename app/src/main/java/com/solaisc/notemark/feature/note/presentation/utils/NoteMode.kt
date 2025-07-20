@@ -1,4 +1,4 @@
-package com.solaisc.notemark.util
+package com.solaisc.notemark.feature.note.presentation.utils
 
 sealed class NoteMode {
     data object View_Mode: NoteMode()

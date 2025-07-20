@@ -19,15 +19,16 @@ import com.solaisc.notemark.feature.setting.presentation.SettingScreen
 @Composable
 fun NavigationRoot(
     navController: NavHostController,
-    isLoggedIn: Boolean
+    isLoggedIn: Boolean,
+    isConnected: Boolean
 ) {
     NavHost(
         navController = navController,
         startDestination = if(isLoggedIn) "note" else "auth"
     ) {
         authGraph(navController)
-        noteGraph(navController)
-        settingsGraph(navController)
+        noteGraph(navController, isConnected)
+        settingsGraph(navController, isConnected)
     }
 }
 
@@ -78,13 +79,13 @@ private fun NavGraphBuilder.authGraph(navController: NavHostController) {
     }
 }
 
-private fun NavGraphBuilder.noteGraph(navController: NavHostController) {
+private fun NavGraphBuilder.noteGraph(navController: NavHostController, isConnected: Boolean) {
     navigation(
         startDestination = "list_note",
         route = "note"
     ) {
         composable(route = "list_note") {
-            NotesScreen(navController)
+            NotesScreen(navController, isConnected)
         }
 
         composable(
@@ -109,13 +110,13 @@ private fun NavGraphBuilder.noteGraph(navController: NavHostController) {
     }
 }
 
-private fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
+private fun NavGraphBuilder.settingsGraph(navController: NavHostController, isConnected: Boolean) {
     navigation(
         startDestination = "setting_dashboard",
         route = "settings"
     ) {
         composable("setting_dashboard") {
-            SettingScreen(navController)
+            SettingScreen(navController, isConnected)
         }
     }
 }

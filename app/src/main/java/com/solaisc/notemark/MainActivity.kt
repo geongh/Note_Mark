@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -33,6 +34,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             NoteMarkTheme {
+                val isConnected by viewModel.isConnected.collectAsStateWithLifecycle()
+
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     val padding = innerPadding
 
@@ -40,7 +43,8 @@ class MainActivity : ComponentActivity() {
                         val navController = rememberNavController()
                         NavigationRoot(
                             navController = navController,
-                            isLoggedIn = viewModel.state.isLoggedIn
+                            isLoggedIn = viewModel.state.isLoggedIn,
+                            isConnected = isConnected
                         )
                     }
                 }

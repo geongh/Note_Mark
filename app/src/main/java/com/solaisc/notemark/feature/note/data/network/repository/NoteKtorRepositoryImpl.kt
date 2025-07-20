@@ -3,6 +3,7 @@ package com.solaisc.notemark.feature.note.data.network.repository
 import com.solaisc.notemark.feature.note.data.network.NoteDto
 import com.solaisc.notemark.feature.note.data.network.NoteRequest
 import com.solaisc.notemark.feature.note.data.network.NoteResponse
+import com.solaisc.notemark.feature.note.data.network.NotesDto
 import com.solaisc.notemark.feature.note.domain.model.Note
 import com.solaisc.notemark.feature.note.domain.repository.NoteNetworkRepository
 import com.solaisc.notemark.util.networking.delete
@@ -18,20 +19,10 @@ import io.ktor.client.HttpClient
 class NoteKtorRepositoryImpl(
     private val httpClient: HttpClient
 ) : NoteNetworkRepository {
-    override suspend fun getNotes(): Result<List<Note>, DataError.Network> {
-        return httpClient.get<List<NoteDto>>(
+    override suspend fun getNotes(): Result<NotesDto, DataError.Network> {
+        return httpClient.get<NotesDto>(
             route = "api/notes"
-        ).map { dto ->
-            dto.map {
-                Note(
-                    id = it.id,
-                    title = it.title,
-                    content = it.content,
-                    createdAt = it.createdAt,
-                    lastEditedAt = it.lastEditedAt
-                )
-            }
-        }
+        )
     }
 
     override suspend fun postNote(note: Note): Result<Note, DataError.Network> {

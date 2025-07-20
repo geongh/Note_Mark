@@ -1,14 +1,12 @@
 package com.solaisc.notemark.feature.auth.presentation.login
 
-import android.util.Log
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.solaisc.notemark.util.result.DataError
 import com.solaisc.notemark.util.result.Result
 import com.solaisc.notemark.feature.auth.domain.AuthRepository
-import com.solaisc.notemark.util.isValidEmail
-import com.solaisc.notemark.util.result.asEmptyDataResult
+import com.solaisc.notemark.feature.auth.data.utils.isValidEmail
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
