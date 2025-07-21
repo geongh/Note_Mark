@@ -263,6 +263,12 @@ class SettingViewModel(
         val duration = Duration.between(dateTimeInSystemZone, nowInSystemZone)
         return if (duration.toMinutes() < 5 && !duration.isNegative) {
             "Just now"
+        } else if (duration.toMinutes() in 5..60) {
+            "${duration.toMinutes()} minutes ago"
+        } else if (duration.toHours() in 1..24) {
+            "${duration.toHours()} hours ago"
+        } else if (duration.toDays() in 1..7) {
+            "${duration.toDays()} days ago"
         } else {
             isoDateTimeString.toDateTimeString()
         }
